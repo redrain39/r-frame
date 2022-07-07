@@ -13,4 +13,8 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "RFrame"
+
 include ':app'
+
+include ':sup_common'
+include ':sup_base'
