@@ -1,30 +1,28 @@
-package com.redrain.sup_base.module.base.impls
+package com.redrain.sup_base.ui.module.impls
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
-import com.redrain.sup_base.module.base.interfaces.IBaseFragment
-import org.greenrobot.eventbus.EventBus
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
+import com.redrain.sup_base.R
+import com.redrain.sup_base.ui.module.interfaces.IBaseDialogFragment
 
-abstract class BaseFragment<DB: ViewDataBinding>(
+abstract class BaseDialogFragment<DB: ViewDataBinding>(
     @LayoutRes val contentLayoutId: Int
-): Fragment(), IBaseFragment {
+): DialogFragment(contentLayoutId), IBaseDialogFragment {
 
     lateinit var dataBinding: DB
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // 注册EventBus
-        if (useEventBus()) {
-            EventBus.getDefault().register(this)
-        }
-        // 初始化状态栏
-        initStatusBar()
         // 获取传递参数
         arguments?.let {
             getIntentParam(it)
@@ -38,30 +36,20 @@ abstract class BaseFragment<DB: ViewDataBinding>(
     ): View? {
         // 设置dataBinding
         dataBinding = DataBindingUtil.inflate(LayoutInflater.from(context), contentLayoutId, container, false)
+        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        return dataBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         // 初始化视图
         initUI()
         // 初始化数据
         initObserver()
-        return dataBinding.root
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        // 注销EventBus
-        if (useEventBus()) {
-            EventBus.getDefault().unregister(this)
-        }
-    }
-
-    open fun initStatusBar() {
-
     }
 
     open fun getIntentParam(bundle: Bundle) {
 
-    }
-
-    open fun useEventBus(): Boolean {
-        return false
     }
 }

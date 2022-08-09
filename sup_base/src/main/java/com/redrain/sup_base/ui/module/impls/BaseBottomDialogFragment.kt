@@ -1,4 +1,4 @@
-package com.redrain.sup_base.module.base.impls
+package com.redrain.sup_base.ui.module.impls
 
 import android.app.Dialog
 import android.graphics.Color

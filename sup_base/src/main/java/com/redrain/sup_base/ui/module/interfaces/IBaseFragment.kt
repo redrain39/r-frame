@@ -1,4 +1,4 @@
-package com.redrain.sup_base.module.base.interfaces
+package com.redrain.sup_base.ui.module.interfaces
 
 
 interface IBaseFragment {
