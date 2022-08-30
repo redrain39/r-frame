@@ -15,16 +15,54 @@ abstract class BaseAdapter<DB : ViewDataBinding, D>(
     open val context: Context
 ) : RecyclerView.Adapter<BaseAdapter.BaseViewHolder<DB>>(), IBaseAdapter<DB, D> {
 
-    var dataSource = mutableListOf<D>()
+    private var dataSource = mutableListOf<D>()
 
-    open fun setData(dataSource: MutableList<D>) {
-        this.dataSource = dataSource
+    open fun setDataSource(dataSource: List<D>) {
+        this.dataSource = dataSource.toMutableList()
         notifyDataSetChanged()
     }
 
-    open fun addData(dataSource: MutableList<D>) {
+    open fun addData(position: Int, data: D) {
+        this.dataSource.add(position, data)
+        notifyItemInserted(position)
+    }
+
+    open fun addDataSource(dataSource: List<D>) {
         this.dataSource.addAll(dataSource)
         notifyItemRangeInserted(this.dataSource.size - dataSource.size, dataSource.size)
+    }
+
+    open fun addDataSource(startPosition: Int, dataSource: List<D>) {
+        this.dataSource.addAll(startPosition, dataSource)
+        notifyItemRangeInserted(startPosition, dataSource.size)
+    }
+
+    open fun removeData(position: Int) {
+        this.dataSource.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    open fun removeData(data: D) {
+        val position = this.dataSource.indexOf(data)
+        this.dataSource.remove(data)
+        notifyItemRemoved(position)
+    }
+
+    open fun removeDataSource(startPosition: Int, dataSource: List<D>) {
+        this.dataSource.removeAll(dataSource)
+        notifyItemRangeRemoved(startPosition, dataSource.size)
+    }
+
+    open fun updateData(position:Int, data: D) {
+        this.dataSource[position] = data
+        notifyItemChanged(position)
+    }
+
+    open fun updateDataSource(startPosition: Int, dataSource: List<D>) {
+        for ((index, data) in dataSource.withIndex()) {
+            this.dataSource[index + startPosition] = data
+        }
+        notifyItemRangeChanged(startPosition, dataSource.size)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<DB> {
