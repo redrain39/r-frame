@@ -51,7 +51,8 @@ abstract class BaseActivity<DB : ViewDataBinding>(
     }
 
     override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(DisplayUtil.attachBaseContext(newBase!!, fontScale))
+        if (newBase == null) super.attachBaseContext(newBase)
+        else super.attachBaseContext(DisplayUtil.attachBaseContext(newBase, fontScale))
     }
 
     /**

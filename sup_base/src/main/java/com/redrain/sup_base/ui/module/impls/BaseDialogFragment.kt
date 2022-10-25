@@ -1,5 +1,6 @@
 package com.redrain.sup_base.ui.module.impls
 
+import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -14,6 +15,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.redrain.sup_base.R
 import com.redrain.sup_base.ui.module.interfaces.IBaseDialogFragment
+import org.greenrobot.eventbus.EventBus
 
 abstract class BaseDialogFragment<DB: ViewDataBinding>(
     @LayoutRes val contentLayoutId: Int
@@ -21,12 +23,24 @@ abstract class BaseDialogFragment<DB: ViewDataBinding>(
 
     lateinit var dataBinding: DB
 
+    var isShowShade = false // 是否显示阴影遮罩
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // 注册EventBus
+        if (useEventBus()) {
+            EventBus.getDefault().register(this)
+        }
         // 获取传递参数
         arguments?.let {
             getIntentParam(it)
         }
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        return dialog
     }
 
     override fun onCreateView(
@@ -36,20 +50,32 @@ abstract class BaseDialogFragment<DB: ViewDataBinding>(
     ): View? {
         // 设置dataBinding
         dataBinding = DataBindingUtil.inflate(LayoutInflater.from(context), contentLayoutId, container, false)
-        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         return dataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        if (isShowShade) dialog?.window?.setDimAmount(0f)
         // 初始化视图
         initUI()
         // 初始化数据
         initObserver()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        // 注销EventBus
+        if (useEventBus()) {
+            EventBus.getDefault().unregister(this)
+        }
+    }
+
     open fun getIntentParam(bundle: Bundle) {
 
+    }
+
+    open fun useEventBus(): Boolean {
+        return false
     }
 }

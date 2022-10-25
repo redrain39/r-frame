@@ -67,8 +67,7 @@ abstract class BaseAdapter<DB : ViewDataBinding, D>(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<DB> {
         val dataBinding: DB = DataBindingUtil.inflate(
-            LayoutInflater.from(context),
-            getLayout(), parent, false
+            LayoutInflater.from(context), getLayout(), parent, false
         )
         return BaseViewHolder(dataBinding)
     }
