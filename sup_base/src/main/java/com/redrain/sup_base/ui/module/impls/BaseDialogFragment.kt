@@ -12,8 +12,6 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentManager
-import com.redrain.sup_base.R
 import com.redrain.sup_base.ui.module.interfaces.IBaseDialogFragment
 import org.greenrobot.eventbus.EventBus
 
@@ -49,7 +47,7 @@ abstract class BaseDialogFragment<DB: ViewDataBinding>(
         savedInstanceState: Bundle?
     ): View? {
         // 设置dataBinding
-        dataBinding = DataBindingUtil.inflate(LayoutInflater.from(context), contentLayoutId, container, false)
+        dataBinding = DataBindingUtil.inflate(inflater, contentLayoutId, container, false)
         return dataBinding.root
     }
 
