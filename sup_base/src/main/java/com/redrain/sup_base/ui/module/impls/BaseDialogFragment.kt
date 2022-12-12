@@ -2,6 +2,9 @@ package com.redrain.sup_base.ui.module.impls
 
 import android.app.Dialog
 import android.graphics.Color
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
+import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +15,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
+import com.redrain.sup_base.manager.AppManager
 import com.redrain.sup_base.ui.module.interfaces.IBaseDialogFragment
 import org.greenrobot.eventbus.EventBus
 
@@ -53,6 +57,14 @@ abstract class BaseDialogFragment<DB: ViewDataBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // App是否变灰
+        if (AppManager.isAppBeGray) {
+            val paint = Paint()
+            val cm = ColorMatrix()
+            cm.setSaturation(0f)
+            paint.colorFilter = ColorMatrixColorFilter(cm)
+            dialog?.window?.decorView?.setLayerType(View.LAYER_TYPE_HARDWARE, paint)
+        }
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         if (isShowShade) dialog?.window?.setDimAmount(0f)
         // 初始化视图

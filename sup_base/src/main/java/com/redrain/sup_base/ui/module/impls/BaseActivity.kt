@@ -2,11 +2,16 @@ package com.redrain.sup_base.ui.module.impls
 
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
+import android.graphics.Paint
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.redrain.sup_base.manager.AppManager
 import com.redrain.sup_base.ui.module.interfaces.IBaseActivity
 import com.redrain.sup_base.utils.DisplayUtil
 import org.greenrobot.eventbus.EventBus
@@ -19,6 +24,14 @@ abstract class BaseActivity<DB : ViewDataBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // App是否变灰
+        if (AppManager.isAppBeGray) {
+            val paint = Paint()
+            val cm = ColorMatrix()
+            cm.setSaturation(0f)
+            paint.colorFilter = ColorMatrixColorFilter(cm)
+            window?.decorView?.setLayerType(View.LAYER_TYPE_HARDWARE, paint)
+        }
         // 注册EventBus
         if (useEventBus()) {
             EventBus.getDefault().register(this)

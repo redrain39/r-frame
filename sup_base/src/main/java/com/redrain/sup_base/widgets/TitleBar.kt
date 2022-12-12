@@ -18,8 +18,14 @@ class TitleBar(context: Context, attrs: AttributeSet) : FrameLayout(context, att
     private val dataBinding: WidgetTitleBarBinding =
         DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.widget_title_bar, this, true)
 
-    var leftClickListener: OnTitleBarLeftClickListener? = null
-    var rightClickListener: OnTitleBarRightClickListener? = null
+    private var onLeftClick: () -> Unit = {}
+    fun setOnLiftClick(onLeftClick: () -> Unit) {
+        this.onLeftClick = onLeftClick
+    }
+    private var onRightClick: () -> Unit = {}
+    fun setOnRightClick(onRightClick: () -> Unit) {
+        this.onRightClick = onRightClick
+    }
 
     @ColorInt
     var bgColor: Int = Color.WHITE
@@ -103,7 +109,7 @@ class TitleBar(context: Context, attrs: AttributeSet) : FrameLayout(context, att
             setImageDrawable(if (leftIcon == null) ResourcesCompat.getDrawable(resources,
                     R.drawable.ic_arrow_black_left, null) else leftIcon)
             setOnClickListener {
-                leftClickListener?.onTitleBarLeftClick()
+                onLeftClick()
             }
         }
         dataBinding.tvTitle.apply {
@@ -129,27 +135,17 @@ class TitleBar(context: Context, attrs: AttributeSet) : FrameLayout(context, att
             }
         }
         dataBinding.tvRight.setOnClickListener {
-            rightClickListener?.onTitleBarRightClick()
+            onRightClick()
         }
         dataBinding.ivRight.setOnClickListener {
-            rightClickListener?.onTitleBarRightClick()
+            onRightClick()
         }
         dataBinding.divideLine.visibility = if (isLineShow) VISIBLE else GONE
     }
 
     fun bindActivity(activity: Activity) {
-        leftClickListener = object : OnTitleBarLeftClickListener {
-            override fun onTitleBarLeftClick() {
-                activity.finish()
-            }
+        onLeftClick = {
+            activity.finish()
         }
-    }
-
-    interface OnTitleBarLeftClickListener {
-        fun onTitleBarLeftClick()
-    }
-
-    interface OnTitleBarRightClickListener {
-        fun onTitleBarRightClick()
     }
 }
