@@ -17,6 +17,8 @@ abstract class BaseAdapter<DB : ViewDataBinding, D>(
 
     private var dataSource = mutableListOf<D>()
 
+    open fun getDataSource() = dataSource
+
     open fun setDataSource(dataSource: List<D>) {
         this.dataSource = dataSource.toMutableList()
         notifyDataSetChanged()
