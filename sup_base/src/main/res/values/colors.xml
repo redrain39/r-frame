@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="bgColorWhite">#FFFFFF</color>
+    <color name="bgColorGray">#F5F7F9</color>
 
     <color name="textColorBlack">#232323</color>
     <color name="textColorGray">#B9B9B9</color>
