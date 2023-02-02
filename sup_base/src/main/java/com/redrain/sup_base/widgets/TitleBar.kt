@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
 import androidx.core.content.res.ResourcesCompat
@@ -78,6 +79,12 @@ class TitleBar(context: Context, attrs: AttributeSet) : FrameLayout(context, att
             dataBinding.tvRight.setTextColor(value)
         }
 
+    var isRightTextShow: Boolean = true
+        set(value) {
+            field = value
+            dataBinding.tvRight.visibility = if (value) VISIBLE else GONE
+        }
+
     var isLineShow: Boolean = true
         set(value) {
             field = value
@@ -121,6 +128,7 @@ class TitleBar(context: Context, attrs: AttributeSet) : FrameLayout(context, att
             dataBinding.tvRight.visibility = INVISIBLE
         } else {
             if (rightText != null) {
+                dataBinding.tvRight.visibility = View.VISIBLE
                 dataBinding.tvRight.apply {
                     text = rightText
                     setTextColor(rightTextColor)
@@ -128,6 +136,7 @@ class TitleBar(context: Context, attrs: AttributeSet) : FrameLayout(context, att
                 dataBinding.ivRight.visibility = INVISIBLE
             }
             if (rightIcon != null) {
+                dataBinding.ivRight.visibility = View.VISIBLE
                 dataBinding.ivRight.apply {
                     setImageDrawable(rightIcon)
                 }

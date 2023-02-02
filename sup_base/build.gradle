@@ -13,7 +13,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.redrain.rframe'
                 artifactId = 'r-frame'
-                version = "1.1.7"
+                version = "1.1.8"
             }
         }
     }
