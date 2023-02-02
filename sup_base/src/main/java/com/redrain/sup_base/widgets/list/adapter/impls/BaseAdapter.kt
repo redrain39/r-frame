@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.redrain.sup_base.widgets.list.adapter.interfaces.IBaseAdapter
+import java.util.Collections
 
 abstract class BaseAdapter<DB : ViewDataBinding, D>(
     open val context: Context
@@ -58,6 +59,11 @@ abstract class BaseAdapter<DB : ViewDataBinding, D>(
     open fun updateData(position:Int, data: D) {
         this.dataSource[position] = data
         notifyItemChanged(position)
+    }
+
+    open fun swapData(fromPosition: Int, toPosition: Int) {
+        Collections.swap(dataSource, fromPosition, toPosition)
+        notifyItemMoved(fromPosition, toPosition)
     }
 
     open fun updateDataSource(startPosition: Int, dataSource: List<D>) {
