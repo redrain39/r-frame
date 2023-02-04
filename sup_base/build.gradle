@@ -13,7 +13,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.redrain.rframe'
                 artifactId = 'r-frame'
-                version = "1.1.8"
+                version = "1.1.9"
             }
         }
     }
@@ -66,6 +66,7 @@ dependencies {
     api 'com.google.android.material:material:1.7.0'
     api 'androidx.recyclerview:recyclerview:1.2.1'
     api 'androidx.viewpager2:viewpager2:1.0.0'
+    api 'com.github.zcweng:switch-button:0.0.3@aar'
 
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
 
