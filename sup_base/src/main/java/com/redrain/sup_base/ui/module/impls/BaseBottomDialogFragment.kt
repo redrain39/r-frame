@@ -21,10 +21,6 @@ abstract class BaseBottomDialogFragment<DB: ViewDataBinding>(
         setStyle(STYLE_NORMAL, R.style.BottomSheetDialog)
         // 启用弹窗取消
         isCancelable = true
-        // 获取传递参数
-        arguments?.let {
-            getIntentParam(it)
-        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.redrain.sup_base.ui.module.interfaces.IBaseFragment
+import com.redrain.sup_base.widgets.dialogs.LoadingDialog
 import org.greenrobot.eventbus.EventBus
 
 abstract class BaseFragment<DB: ViewDataBinding>(
@@ -23,6 +24,8 @@ abstract class BaseFragment<DB: ViewDataBinding>(
         if (useEventBus()) {
             EventBus.getDefault().register(this)
         }
+        // 初始化 ViewModel （部分场景使用，一般通过 by viewmodels 来实现）
+        initViewModel()
         // 初始化状态栏
         initStatusBar()
         // 获取传递参数
@@ -53,6 +56,10 @@ abstract class BaseFragment<DB: ViewDataBinding>(
         }
     }
 
+    open fun initViewModel() {
+
+    }
+
     open fun initStatusBar() {
 
     }
@@ -63,5 +70,15 @@ abstract class BaseFragment<DB: ViewDataBinding>(
 
     open fun useEventBus(): Boolean {
         return false
+    }
+
+    private val loadingDialog by lazy { LoadingDialog() }
+
+    fun showLoadingDialog() {
+        loadingDialog.show(childFragmentManager, "LoadingDialog")
+    }
+
+    fun dismissLoadingDialog() {
+        loadingDialog.dismiss()
     }
 }

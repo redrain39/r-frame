@@ -14,6 +14,7 @@ import androidx.databinding.ViewDataBinding
 import com.redrain.sup_base.manager.AppManager
 import com.redrain.sup_base.ui.module.interfaces.IBaseActivity
 import com.redrain.sup_base.utils.DisplayUtil
+import com.redrain.sup_base.widgets.dialogs.LoadingDialog
 import org.greenrobot.eventbus.EventBus
 
 abstract class BaseActivity<DB : ViewDataBinding>(
@@ -86,5 +87,15 @@ abstract class BaseActivity<DB : ViewDataBinding>(
 
     open fun useEventBus(): Boolean {
         return false
+    }
+
+    private val loadingDialog by lazy { LoadingDialog() }
+
+    fun showLoadingDialog() {
+        loadingDialog.show(supportFragmentManager, "LoadingDialog")
+    }
+
+    fun dismissLoadingDialog() {
+        loadingDialog.dismiss()
     }
 }

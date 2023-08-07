@@ -33,4 +33,9 @@
         <attr name="leftText" />
         <attr name="leftTextColor" />
     </declare-styleable>
+
+    <declare-styleable name="ProgressView">
+        <attr name="progressBackgroundDrawable" format="reference"/>
+        <attr name="progressDrawable" format="reference"/>
+    </declare-styleable>
 </resources>

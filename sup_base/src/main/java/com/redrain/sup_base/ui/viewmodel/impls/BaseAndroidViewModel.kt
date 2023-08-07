@@ -1,7 +1,8 @@
 package com.redrain.sup_base.ui.viewmodel.impls
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.redrain.sup_base.manager.AppManager
 import com.redrain.sup_base.manager.LogTagManager
@@ -12,7 +13,9 @@ import com.redrain.sup_base.widgets.list.RefreshState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-abstract class BaseViewModel: ViewModel(), IBaseViewModel {
+abstract class BaseAndroidViewModel(
+    application: Application
+): AndroidViewModel(application), IBaseViewModel {
 
     val loadingState by lazy { MutableLiveData<Boolean>() }
     val refreshState = MutableLiveData<RefreshState>()

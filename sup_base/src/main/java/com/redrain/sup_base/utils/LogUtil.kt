@@ -1,7 +1,6 @@
 package com.redrain.sup_base.utils
 
 import android.util.Log
-import com.redrain.sup_base.BuildConfig
 import com.redrain.sup_base.manager.AppManager
 import java.lang.Exception
 
